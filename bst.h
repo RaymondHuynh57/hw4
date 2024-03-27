@@ -481,6 +481,7 @@ template<class Key, class Value>
 void BinarySearchTree<Key, Value>::insert(const std::pair<const Key, Value> &keyValuePair)
 {
     // TODO
+    //std::cout << "BST INSERT" << std::endl;
     if(root_ == nullptr){
         root_ = new Node<Key, Value>(keyValuePair.first, keyValuePair.second, nullptr);
         root_->setLeft(nullptr);
@@ -583,6 +584,7 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
                 temp->getRight()->setParent(temp->getParent());
             }else if(temp->getLeft() != nullptr && temp->getRight() != nullptr){  //If the both childs exist when removing, switch with predecessor and then remove it
                 ++counter;
+                //std::cout << "PREDECESSOR INSERT" << std::endl;
                 Node<Key, Value>* pred = predecessor(temp);
                 nodeSwap(temp, pred);
                 if(temp->getLeft() != nullptr && temp->getRight() == nullptr){ //If the left is nullptr
@@ -649,22 +651,36 @@ BinarySearchTree<Key, Value>::predecessor(Node<Key, Value>* current)
 {
     // TODO
     //Left subtree and the very right for two child existing
+    //Predecessor is the problem
     Node<Key, Value>* temp = current;
-
+    Node<Key, Value>* temp_temp = temp;
+    //std::cout << "PREDECESSOR" << std::endl;
+    //if(current != nullptr){
+        //std::cout << "CURRENT IS NOT NULLPTR" << std::endl;
+    //}
     if((current->getLeft() != nullptr && current->getRight() != nullptr) || (current->getLeft() != nullptr && current->getRight() == nullptr)){  //If both childs exist, then that menas it will go left subtree and then right most Node
+        //std::cout << "FIRST PRED IF CONDITION" << std::endl;
         temp = temp->getLeft();
         while(temp->getRight() != nullptr){
             temp = temp->getRight();
         }
     }else if((current->getLeft() == nullptr && current->getRight() != nullptr) || (current->getLeft() == nullptr && current->getRight() == nullptr)){  //No left for predecessor or no left or right for predecessor means it goes up and choose the parent node of the right node
         Node<Key, Value>* temp_two = temp;
+        //std::cout << "SECOND PRED IF CONDITION" << std::endl;
         while(temp->getParent() != nullptr){
             temp_two = temp;
+            //std::cout << "TEMP IN WHILE LOOP: " << temp->getKey() << " " << temp->getValue() << std::endl;
             temp = temp->getParent();
+
             if(temp_two == temp->getRight()){
                 break;
             }
         }
+        //std::cout << "SECOND PRED IF CONDITION RESULT: " << temp->getKey() << " " << temp->getValue() << std::endl;
+    }
+
+    if(temp_temp->getKey() < temp->getKey()){
+        return temp_temp;
     }
     return temp;
 }
