@@ -258,6 +258,7 @@ protected:
     void clear_Helper(Node<Key, Value>* root);
     int isBalancedRow_Helper(Node<Key, Value>* root) const;
     bool isBalanced_Helper(Node<Key, Value>* root) const;
+    void Destructor_Helper(Node<Key, Value>* root);
 protected:
     Node<Key, Value>* root_;
     // You should not need other data members
@@ -385,9 +386,25 @@ template<typename Key, typename Value>
 BinarySearchTree<Key, Value>::~BinarySearchTree()
 {
     // TODO
-    delete root_;
+    //Node<Key, Value>* temp = root_;
+    //Node<Key, Value>* temp_two = temp;
+    //NEED A HELPER DESTRUCTOR METHOD THAT DOES POST ORDER DELETE
+  
+    Destructor_Helper(root_);
+    //delete root_;
 }
 
+template<typename Key, typename Value>
+void BinarySearchTree<Key, Value>::Destructor_Helper(Node<Key, Value>* root){
+    if(root == nullptr){    //EOL or EOBS
+        return;
+    }else{
+        //POST ORDER DELETE
+        Destructor_Helper(root->getLeft());
+        Destructor_Helper(root->getRight());
+        delete root;    //Affects through everything
+    }
+}
 /**
  * Returns true if tree is empty
 */

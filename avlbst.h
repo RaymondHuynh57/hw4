@@ -955,15 +955,15 @@ balance of its parent
       return;
     }
 
-    Node<Key, Value>* parent; //Let parent be parent of n
+    Node<Key, Value>* parent = nullptr; //Let parent be parent of n
     bool parent_setted = false; //Detect if parent pointer is set by the successor if condition
     bool left_child = false;  //Detect if left child got removed
     bool right_child = false; //Detect if right got removed
     bool successor_bool = false;  //Detect if we go through successor if condtions
     //Node<Key, Value>* succ;
-    Node<Key, Value>* pred;
-    Node<Key, Value>* left_child_Node;  //Will be used for the left child only if condition
-    Node<Key, Value>* right_child_Node;  //Will be used for the right child only if condition
+    Node<Key, Value>* pred = nullptr;
+    Node<Key, Value>* left_child_Node = nullptr;  //Will be used for the left child only if condition
+    Node<Key, Value>* right_child_Node = nullptr; //Will be used for the right child only if condition
    
    
     //If there are two childs, then swap with predecessor and then remove
@@ -1059,9 +1059,11 @@ balance of its parent
         }else if(left_child_Node == parent->getLeft() || right_child_Node == parent->getLeft()){ 
             diff += 1;
         }
-        delete temp;
-        Remove_Fix(parent, diff);
+        //delete temp;
+        //Remove_Fix(parent, diff);
     }
+    delete temp;
+    Remove_Fix(parent, diff);
 }
 
 
